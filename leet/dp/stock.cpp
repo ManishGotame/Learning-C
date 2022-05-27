@@ -10,33 +10,17 @@ using namespace std;
 #define inf 1e9
 #define endl '\n'
 
-int dp[1000000]; // profit
-int found[1000000];
- 
-// index = bought index? 
-int soln(int index, vector<int> &prices) {
-  if (found[index]) return dp[index];
-  
-  int profit = 0; 
-    
-  for(int i=index+1; i < prices.size(); i++) {
-    profit = max(profit, prices[i] - prices[index]);
-    int v = soln(i, &prices);
-  }
-  
-  found[index] = 1;
-  dp[index] = profit; 
-  return profit; 
-}
-
 
 int maxProfit(vector<int> &prices) {
-  int mp = 0;  
+  int minBuy = inf;
+  int profit = 0;
+
   for(int i=0; i < prices.size(); i++) {
-    mp = max(mp, soln(i, prices)); 
+    minBuy = min(minBuy, prices[i]);
+    profit = max(profit, prices[i] - minBuy);
   }
-  
-  return mp; 
+
+  return profit;
 }
 
 int main() {
@@ -44,8 +28,8 @@ int main() {
   cin.tie(0);
   cout.tie(0);
   
-  //vector<int> v = {7,1,5,3,6,4};
-  vector<int> v = {7,6,4,3,1};
+  vector<int> v = {7,1,5,3,6,4};
+  //vector<int> v = {7,6,4,3,1};
 
   cout << maxProfit(v);
 
